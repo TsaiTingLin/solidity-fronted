@@ -23,9 +23,10 @@ npm install ethers
 ```
 
 ### 2. 合約部署
-Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。請依照以下步驟操作：
+Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。
+步驟 1-8 皆在本專案以外執行, 請依照以下操作：
 
-1. 下載並解壓縮 StockContract.tar.gz 檔案
+1. 下載並將檔案移出本專案放在另外的資料夾, 解壓縮 StockContract.tar.gz 檔案
 2. 進入解壓縮後的智能合約專案目錄
 3. 安裝依賴套件：
    ```bash
@@ -41,9 +42,8 @@ Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。請依照�
    npx hardhat run scripts/deploy.js --network localhost
    ```
 6. 部署成功後，記下終端中顯示的合約地址
-7. 複製生成的 `artifacts/contracts/StockContract.sol/StockContract.json` 檔案到本專案適當位置
-8. 更新專案中的環境變數 `.env` 檔案，添加合約地址和網路連接資訊
-   可以通過以下命令測試合約的函數是否成功：
+7. 複製生成的 `artifacts/contracts/StockContract.sol/StockContract.json` 檔案到本專案適當位置 `src/contracts/StockContract.json`
+8. 可以通過以下命令測試合約的函數是否成功：
 
    **查詢合約剩餘股票：**
    ```bash
@@ -55,14 +55,9 @@ Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。請依照�
    npx hardhat run scripts/buyStock.js --network localhost
    ```
 
-   **購買特定數量的股票：**
-   ```bash
-   npx hardhat run scripts/buyStock.js 1 --network localhost
-   ```
-
    **轉移股票（從一個帳戶轉到另一個帳戶）：**
    ```bash
-   npx hardhat run scripts/transferStock.js 0x發送方地址 0x接收方地址 1 --network localhost
+   npx hardhat transferStock --accounta <sender_address> --accountb <receiver_address> --amount <amount> --network localhost
    ```
 
    **查詢所有帳戶的股票餘額：**
@@ -70,10 +65,8 @@ Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。請依照�
    npx hardhat run scripts/queryAllAccount.js --network localhost
    ```
 
-   **注意：** 請將「0x發送方地址」和「0x接收方地址」替換為實際的以太坊地址。
+   **注意：** 請將「sender_address」和「receiver_address」替換為實際的以太坊地址。
    在本地 Hardhat 網絡中，您可以使用 Hardhat 節點啟動時提供的預設測試帳戶。
-
-
 
 ### 3. 設置前端環境變量 `.env`
 在專案根目錄中更新文件 `.env`
