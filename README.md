@@ -23,11 +23,57 @@ npm install ethers
 ```
 
 ### 2. 合約部署
-Hardhat 開發智能合約不在這個專案中, 須先自行將合約部署完成並將 StockContract.json 和環境變量更新到本專案中, 在智能合約專案執行以下指令
-``` bash
-npx hardhat compile  # 編譯 Solidity 智能合約代碼, 編譯完成後會顯示成功信息
-npx hardhat node  # 啟動本地測試區塊鏈（以太坊網絡）
-```
+Hardhat 開發智能合約位於 StockContract.tar.gz 壓縮檔中。請依照以下步驟操作：
+
+1. 下載並解壓縮 StockContract.tar.gz 檔案
+2. 進入解壓縮後的智能合約專案目錄
+3. 安裝依賴套件：
+   ```bash
+   npm install
+   ```
+4. 在智能合約專案中執行以下指令：
+   ```bash
+   npx hardhat compile  # 編譯 Solidity 智能合約代碼
+   npx hardhat node     # 啟動本地測試區塊鏈（保持此終端窗口開啟）
+   ```
+5. 在新的終端窗口中，執行部署腳本：
+   ```bash
+   npx hardhat run scripts/deploy.js --network localhost
+   ```
+6. 部署成功後，記下終端中顯示的合約地址
+7. 複製生成的 `artifacts/contracts/StockContract.sol/StockContract.json` 檔案到本專案適當位置
+8. 更新專案中的環境變數 `.env` 檔案，添加合約地址和網路連接資訊
+   可以通過以下命令測試合約的函數是否成功：
+
+   **查詢合約剩餘股票：**
+   ```bash
+   npx hardhat run scripts/queryStock.js --network localhost
+   ```
+
+   **購買股票（默認購買1股）：**
+   ```bash
+   npx hardhat run scripts/buyStock.js --network localhost
+   ```
+
+   **購買特定數量的股票：**
+   ```bash
+   npx hardhat run scripts/buyStock.js 1 --network localhost
+   ```
+
+   **轉移股票（從一個帳戶轉到另一個帳戶）：**
+   ```bash
+   npx hardhat run scripts/transferStock.js 0x發送方地址 0x接收方地址 1 --network localhost
+   ```
+
+   **查詢所有帳戶的股票餘額：**
+   ```bash
+   npx hardhat run scripts/queryAllAccount.js --network localhost
+   ```
+
+   **注意：** 請將「0x發送方地址」和「0x接收方地址」替換為實際的以太坊地址。
+   在本地 Hardhat 網絡中，您可以使用 Hardhat 節點啟動時提供的預設測試帳戶。
+
+
 
 ### 3. 設置前端環境變量 `.env`
 在專案根目錄中更新文件 `.env`
